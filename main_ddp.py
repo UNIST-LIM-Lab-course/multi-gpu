@@ -13,12 +13,13 @@ from tqdm import tqdm
 
 def main():
 
-    torch.distributed.init_process_group(backend='nccl')
+    # Distributed training settings
+    dist.init_process_group(backend='nccl')
 
     local_rank = int(os.environ["LOCAL_RANK"])
     torch.cuda.set_device(local_rank)
 
-    world_size = torch.distributed.get_world_size()
+    world_size = dist.get_world_size()
 
     # Hyper-parameters configurations
     num_epochs = 5
@@ -62,7 +63,7 @@ def main():
 
     # Define the model - ResNet-50
     model = torchvision.models.resnet50(weights=None, num_classes=num_classes).cuda()
-    model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[local_rank], output_device=local_rank)
+    model = nn.parallel.DistributedDataParallel(model, device_ids=[local_rank], output_device=local_rank)
 
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss()

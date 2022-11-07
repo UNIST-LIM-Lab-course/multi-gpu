@@ -7,7 +7,6 @@ import torchvision
 from tqdm import tqdm
 
 def main():
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     # Hyper-parameters configurations
     num_epochs = 5
@@ -48,7 +47,7 @@ def main():
 
     # Define the model - ResNet-50
     model = torchvision.models.resnet50(weights=None, num_classes=num_classes)
-    model = model.to(device)
+    model = model.cuda()
 
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss()
@@ -59,8 +58,8 @@ def main():
     for epoch in range(num_epochs):
         model.train()
         for i, (images, labels) in enumerate(tqdm(train_loader)):
-            images = images.to(device)
-            labels = labels.to(device)
+            images = images.cuda()
+            labels = labels.cuda()
 
             # Forward pass
             optimizer.zero_grad()
@@ -81,8 +80,8 @@ def main():
             correct = 0
             total = 0
             for images, labels in val_loader:
-                images = images.to(device)
-                labels = labels.to(device)
+                images = images.cuda()
+                labels = labels.cuda()
                 outputs = model(images)
                 _, predicted = torch.max(outputs.data, 1)
                 total += labels.size(0)
@@ -96,8 +95,8 @@ def main():
         correct = 0
         total = 0
         for images, labels in test_loader:
-            images = images.to(device)
-            labels = labels.to(device)
+            images = images.cuda()
+            labels = labels.cuda()
             outputs = model(images)
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
