@@ -14,7 +14,7 @@ def main():
     batch_size = 100
     learning_rate = 0.001
 
-    # CIFAR-10 dataset
+    # CIFAR-100 dataset
     train_dataset = torchvision.datasets.CIFAR100(root='./data/',
                                                  train=True,
                                                  transform=torchvision.transforms.ToTensor(),

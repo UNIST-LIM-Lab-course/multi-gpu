@@ -63,7 +63,8 @@ def main():
 
     # Define the model - ResNet-50
     model = torchvision.models.resnet50(weights=None, num_classes=num_classes).cuda()
-    model = nn.parallel.DistributedDataParallel(model, device_ids=[local_rank], output_device=local_rank)
+    model = nn.parallel.DistributedDataParallel(model, 
+                            device_ids=[local_rank], output_device=local_rank)
 
     # Loss and optimizer
     criterion = nn.CrossEntropyLoss()

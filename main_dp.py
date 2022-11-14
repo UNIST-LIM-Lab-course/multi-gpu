@@ -22,7 +22,7 @@ def main():
                                                  transform=torchvision.transforms.ToTensor(),
                                                  download=True) 
     
-    test_dataset = torchvision.datasets.CIFAR10(root='./data/',
+    test_dataset = torchvision.datasets.CIFAR100(root='./data/',
                                                 train=False,
                                                 transform=torchvision.transforms.ToTensor())   
 
